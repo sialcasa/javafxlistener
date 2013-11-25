@@ -1,4 +1,4 @@
-package de.buildpath;
+package de.buildpath.declaredlistener;
 
 import java.lang.ref.WeakReference;
 
@@ -6,10 +6,10 @@ import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
-import de.buildpath.objects.ShortLivingObjectWithAnonymousListener;
+import de.buildpath.anonymouslistener.misc.ShortLivingObjectWithAnonymousListener;
+import de.buildpath.anonymouslistener.misc.ShortLivingObjectWithAnonymousListener.Type;
 
-public class LeakingListenerExample extends Application {
-
+public class NonLeakingListenerExample extends Application {
 	// Property which exists the whole application lifetime
 	static StringProperty longLivingString = new SimpleStringProperty();
 
@@ -28,7 +28,8 @@ public class LeakingListenerExample extends Application {
 		// Object retains in memory, because it registers a ChangeListener on
 		// the long living StringProperty
 		leakedObject = new WeakReference<ShortLivingObjectWithAnonymousListener>(
-				new ShortLivingObjectWithAnonymousListener(longLivingString));
+				new ShortLivingObjectWithAnonymousListener(longLivingString,
+						Type.REMOVELISTENER));
 
 		// Check whether Object retains in memory
 		while (leakedObject.get() != null) {

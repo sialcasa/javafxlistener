@@ -1,4 +1,4 @@
-package de.buildpath.objects;
+package de.buildpath.declaredlistener.misc;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

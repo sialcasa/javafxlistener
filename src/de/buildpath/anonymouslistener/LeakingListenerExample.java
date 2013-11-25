@@ -1,4 +1,4 @@
-package de.buildpath;
+package de.buildpath.anonymouslistener;
 
 import java.lang.ref.WeakReference;
 
@@ -6,9 +6,11 @@ import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
-import de.buildpath.objects.ShortLivingObjectWithAnonymousListener;
+import de.buildpath.anonymouslistener.misc.ShortLivingObjectWithAnonymousListener;
+import de.buildpath.anonymouslistener.misc.ShortLivingObjectWithAnonymousListener.Type;
 
-public class NonLeakingListenerExample extends Application {
+public class LeakingListenerExample extends Application {
+
 	// Property which exists the whole application lifetime
 	static StringProperty longLivingString = new SimpleStringProperty();
 
@@ -18,7 +20,6 @@ public class NonLeakingListenerExample extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-
 	}
 
 	@Override
@@ -28,11 +29,11 @@ public class NonLeakingListenerExample extends Application {
 		// the long living StringProperty
 		leakedObject = new WeakReference<ShortLivingObjectWithAnonymousListener>(
 				new ShortLivingObjectWithAnonymousListener(longLivingString,
-						true));
+						Type.LISTENER));
 
 		// Check whether Object retains in memory
 		while (leakedObject.get() != null) {
-			// System.out.println("Element still alive");
+			System.out.println("Element still alive");
 			// Generate some Memory allocation to force the GC
 			String[] generateOutOfMemoryStr = new String[999999];
 		}
